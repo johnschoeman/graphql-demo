@@ -6,6 +6,10 @@
 
 ---
 
+GraphQL is an API standard which provides a single dynamic endpoint for data fetching.
+
+---
+
 ### Why Should I Care About GraphQL
 
 - More and more companies are adopting it.
@@ -164,9 +168,11 @@ Allowing for more complicated views without making new endpoints.
 
 ## How Does GraphQL Work?
 
-- the graph
-- backend implementation
-- frontend implementation
+---
+
+### The Graph
+
+Application data is represented as a graph and a GraphQL server will implement schema which dictates how clients can request and recieve data.
 
 ---
 
