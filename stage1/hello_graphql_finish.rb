@@ -1,17 +1,17 @@
 require 'graphql'
 
 QueryType = GraphQL::ObjectType.define do
-  name 'query'
+  name 'Query'
   
-  field :hello, !types.String do
+  field :sayHello, !types.String do
     resolve ->(obj, args, ctx) do
       return "Hello World!"
     end
   end
 end
 
-Schema = GraphQL::Schema.define do
+HelloSchema = GraphQL::Schema.define do
   query QueryType
 end
 
-puts Schema.execute('{ hello }').to_h
+puts HelloSchema.execute('{ sayHello }').to_h
