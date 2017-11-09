@@ -164,19 +164,19 @@ Allowing for more complicated views without making new endpoints.
 
 - solves over/under fetching issues (N + 1)
 
-- allows for easy client side cacheing
+- allows for easy client side cacheing (Apollo Client/Relay)
 
 - Allows for parallelization of workflow.  (FE / BE)
 
 - Can integrate legacy systems, micro services, external apis, etc, and hide that complexity from the client
 
-- Removes time consuming coordination of defining the api, can focus on the data.
+- Removes time consuming coordination of defining the api/routes, can focus on the data.
 
 ---
 
 ### Down Sides of GraphQL
 
-- difficult to implement server side caching.
+- difficult to implement server side cacheing.
 - upfront costs of setting up gql server.
 - graphql is a thin data aplication layer, it does not solve all the problems.
 - lack of documenation and tooling, espcially for ruby.
@@ -201,7 +201,7 @@ GraphQL provides a complete description of the data in your API by defining a st
 
 GraphQL then provides entry points to this graph and traverses the graph to generate a data tree of requested data, which is returned to the client.
 
-___
+---
 
 
 ## Questions?
