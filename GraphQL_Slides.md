@@ -2,11 +2,15 @@
 
 ---
 
-## What Is GraphQL?
+### What Is GraphQL?
 
 ---
 
-GraphQL is an API standard which provides a single dynamic endpoint for data fetching.
+GraphQL is an API standard which provides a ***single dynamic*** endpoint for data fetching.
+
+---
+
+GraphQL is an alternative to the RESTful API design pattern, which provides multiple static endpoints.
 
 ---
 
@@ -74,7 +78,7 @@ which returns a json object:
 
 ---
 
-How many request response cycles does this take?
+How many request response cycles does it take to get a users chirps and followers?
 
 ```
 GET: api/users/1729
@@ -134,7 +138,7 @@ Which Returns the Following JSON object
 
 ---
 
-Queries are extensible.
+Queries are nestable and extensible.
 Allowing for more complicated views without making new endpoints.
 
 ```javascript
@@ -145,7 +149,7 @@ Allowing for more complicated views without making new endpoints.
       followers {
         id
         name
-        tweets {
+        chirps {
           id
           text
         }
@@ -156,7 +160,7 @@ Allowing for more complicated views without making new endpoints.
 
 ---
 
-## Bonuses For Using GraphQL
+### Bonuses For Using GraphQL
 
 - solves over/under fetching issues (N + 1)
 
@@ -166,17 +170,7 @@ Allowing for more complicated views without making new endpoints.
 
 ---
 
-## How Does GraphQL Work?
-
----
-
-### The Graph
-
-Application data is represented as a graph and a GraphQL server will implement schema which dictates how clients can request and recieve data.
-
----
-
-## Down Sides of GraphQL
+### Down Sides of GraphQL
 
 - difficult to implement server side caching.
 - upfront costs of setting up gql server.
@@ -185,14 +179,26 @@ Application data is represented as a graph and a GraphQL server will implement s
 
 ---
 
+### Common Misconceptions
 
-## Common Misconceptions
+- GraphQL is an API technology, not a database technology.
 
-- GraphQL is not a database technology.
-
-- GraphQL is an API technology following a specification.  It is not a language or framework.
+- GraphQL is a specification, not a specific language or framework.
 
 ---
+
+## How Does GraphQL Work?
+
+---
+
+GraphQL provides a complete description of the data in your API by defining a strongly typed schema which dictactes an abstracted graph of the application data.
+
+---
+
+GraphQL then provides entry points to this graph and traverses the graph to generate a data tree of requested data, which is returned to the client.
+
+___
+
 
 ## Questions?
 
