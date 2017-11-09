@@ -166,7 +166,11 @@ Allowing for more complicated views without making new endpoints.
 
 - allows for easy client side cacheing
 
-- Allows for parallelization of workflow.
+- Allows for parallelization of workflow.  (FE / BE)
+
+- Can integrate legacy systems, micro services, external apis, etc, and hide that complexity from the client
+
+- Removes time consuming coordination of defining the api, can focus on the data.
 
 ---
 
