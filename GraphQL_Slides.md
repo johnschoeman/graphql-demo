@@ -47,7 +47,7 @@ What data is being returned with this RESTful API request?
 ---
 
 The GraphQL analog:
-(fetches exactly the data we ask for)
+(fetches exactly the data we ask for, not the entire set of user data)
 
 ```javascript
   query {
@@ -90,7 +90,7 @@ GET: api/users/1729/followers
 ---
 
 The GraphQL analog:
-
+(only sends one request to the server)
 
 ```javascript
  query {
@@ -140,7 +140,7 @@ Which Returns the Following JSON object
 
 ---
 
-How would we get the chirps of a user's followers? (Without breaking RESTful conventions)
+How would we get the likes of the chirps of a user's followers? (Without breaking RESTful conventions)
 
 ```
 GET: '???'
@@ -162,6 +162,11 @@ Allowing us to recieve more complicated collections of data.
         chirps {
           id
           text
+          likes {
+            id
+            user_id
+            chipr_id
+          }
         }
       }
     }

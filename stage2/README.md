@@ -74,3 +74,83 @@ Gemfile has been modified, make sure you `bundle install`
 ```
 
 graphiql-rails was added to our Gemfile so let's run ```bundle install``` again.  This will mount the graphiql query editor tool for us.  You should be able to visit ```localhost:3000/graphiql``` and make queries in the editor.
+
+### Step 3: Create a Chirp Type
+
+Create a new file:
+
+```ruby
+#/app/graphql/types/chirp_type.rb
+Types::ChirpType = GraphQL::ObjectType.define do
+  name 'Chirp'
+
+  field :id, !types.ID
+  field :body, !types.String
+  field :author_id, !types.Int
+
+end
+```
+
+### Step 4: Create an entry point to our GraphQL server called allChirps
+
+```ruby
+#/app/graphql/types/query_type.rb
+
+Types::QueryType = GraphQL::ObjectType.define do
+  name 'Query'
+
+  field :allChirps, !types[Types::ChirpType] do
+    resolve ->(obj, args, ctx) { Chirp.all }
+  end
+end
+```
+
+### Step 5: Create a likes field for our Chirp Type
+
+```ruby
+#/app/graphql/types/chirp_type.rb
+Types::ChirpType = GraphQL::ObjectType.define do
+  name 'Chirp'
+
+  field :id, !types.ID
+  field :body, !types.String
+  field :author_id, !types.Int
+  field :likes, !types.Int, property: :like_count
+end
+```
+
+### Step 6: Create a liked_by_current_user for our Chirp Type
+
+```ruby
+#/app/graphql/types/chirp_type.rb
+Types::ChirpType = GraphQL::ObjectType.define do
+  name 'Chirp'
+
+  field :id, !types.ID
+  field :body, !types.String
+  field :author_id, !types.Int
+  field :likes, !types.Int, property: :like_count
+  field :liked_by_current_user, !types.Boolean do
+      resolve ->(obj, args, ctx) do
+        return false unless ctx[:current_user]
+        !!obj.likes.find_by(user_id: ctx[:current_user].id)
+      end
+  end
+end
+```
+
+Make current user available to the context object being passed to the resolvers
+
+```ruby
+#/app/controllers/graphql/graphql_controller.rb
+...
+  def execute
+    ...
+    context = {
+      current_user: current_user
+    }
+    ...
+  end
+```
+
+You should now be able to access the Graphql endpoint by visiting localhost:3000/graphiql and writing an allChirps query.

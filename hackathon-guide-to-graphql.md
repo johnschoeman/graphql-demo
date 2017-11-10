@@ -21,6 +21,9 @@ http://graphql.org/learn
 MERN Stack with GQL
 https://github.com/EQuimper/twitter-clone-with-graphql-reactnative
 
+Node PostGreSQL and GQL
+https://github.com/benawad/slack-clone-server
+
 ## Tools
 
 [GraphiQL](https://github.com/graphql/graphiql) - An in browser IDE for making GraphQL queries and mutations. This is essential for development of your backend
