@@ -26,7 +26,7 @@ require 'graphql'
 ```
 
 ### Step 2:
-The graphql gem provides for us a GraphQL::ObjectType class that has an API define { ... } mixed in which allows us to define new Types (which are instances of the GraphQL::ObjectType class) that we can use in our GraphQL Schema to structure or application data graph.
+The graphql gem provides for us a GraphQL::ObjectType class that has a method define { ... } mixed in which allows us to define new Types (which are instances of the GraphQL::ObjectType class) that we can use in our GraphQL Schema to structure or application data graph.
 
 Let's define our QueryType Type:
 
@@ -53,7 +53,7 @@ QueryType = GraphQL::ObjectType.define do
 
 ### Step 3:
 
-Let's define our Schema object.  Similar to types, the graphql gem provides us a way to create the schema using the define { ... } API.
+Let's define our Schema object.  Similar to types, the graphql gem provides us a way to create the schema using the define { ... } mehtod.
 
 ```ruby
 # hello_grapql.rb

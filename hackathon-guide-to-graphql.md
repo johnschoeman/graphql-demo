@@ -14,6 +14,8 @@ https://dev-blog.apollodata.com/graphql-explained-5844742f195e
 more indepth walkthrough of graphql concepts and terminology:
 http://graphql.org/learn
 
+[GraphQL Radio](https://graphqlradio.com/)
+
 ## Stack Specific Tutorials
 
 MERN Stack with GQL
@@ -21,15 +23,18 @@ https://github.com/EQuimper/twitter-clone-with-graphql-reactnative
 
 ## Tools
 
-GraphiQL
+[GraphiQL](https://github.com/graphql/graphiql) - An in browser IDE for making GraphQL queries and mutations. This is essential for development of your backend
 
-GraphCool - a gql based backend as a service
+[GraphCool](https://www.graph.cool/) - A gql based backend as a service.  Very quick to set up and easy to use - Great for creating a mock backend for your front end application.
+
+[GraphCool Playground](https://github.com/graphcool/graphql-playground) - GraphCool's version of GraphiQL, takes a little time to set up but is better than GraphiQL.
 
 ## Ruby Gems
 
-graphql-ruby
+[graphql-ruby](https://github.com/rmosolgo/graphql-ruby)
 
 ## Node Packages
 
-graphql-request
-react-apollo
+[graphql-request](https://github.com/graphcool/graphql-request)
+
+[react-apollo](https://github.com/apollographql/react-apollo)

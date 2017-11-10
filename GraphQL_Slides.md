@@ -47,6 +47,7 @@ What data is being returned with this RESTful API request?
 ---
 
 The GraphQL analog:
+(fetches exactly the data we ask for)
 
 ```javascript
   query {
@@ -78,7 +79,7 @@ which returns a json object:
 
 ---
 
-How many request response cycles does it take to get a users chirps and followers?
+How many request response cycles does it take to get a user's profile-data, chirps, and followers?
 
 ```
 GET: api/users/1729
@@ -88,7 +89,8 @@ GET: api/users/1729/followers
 
 ---
 
-The GraphQL analog
+The GraphQL analog:
+
 
 ```javascript
  query {
@@ -138,8 +140,16 @@ Which Returns the Following JSON object
 
 ---
 
-Queries are nestable and extensible.
-Allowing for more complicated views without making new endpoints.
+How would we get the chirps of a user's followers? (Without breaking RESTful conventions)
+
+```
+GET: '???'
+```
+
+---
+
+Queries in GraphQL are nestable and extensible.
+Allowing us to recieve more complicated collections of data.
 
 ```javascript
  query {
@@ -166,11 +176,11 @@ Allowing for more complicated views without making new endpoints.
 
 - allows for easy client side cacheing (Apollo Client/Relay)
 
-- Allows for parallelization of workflow.  (FE / BE)
+- Allows for parallelization of workflow.  (FE vs BE)
 
 - Can integrate legacy systems, micro services, external apis, etc, and hide that complexity from the client
 
-- Removes time consuming coordination of defining the api/routes, can focus on the data.
+- Removes time consuming coordination and defining the api/routes, we can focus on the data.
 
 ---
 
