@@ -29832,7 +29832,7 @@ exports.default = function (_ref) {
         "strong",
         null,
         "Likes: ",
-        chirp.likes
+        chirp.like_count
       )
     ),
     _react2.default.createElement(

@@ -10,7 +10,7 @@ export default ({ chirp, likeChirp, unLikeChirp }) => {
   return (
     <li>
       <h3>{chirp.body}</h3>
-      <p><strong>Likes: {chirp.likes}</strong></p>
+      <p><strong>Likes: {chirp.like_count}</strong></p>
       <button onClick={likeButtonAction}>{likeButtonText}</button>
     </li>
   );

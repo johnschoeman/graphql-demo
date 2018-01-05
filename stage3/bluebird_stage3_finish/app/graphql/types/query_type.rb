@@ -7,6 +7,10 @@ Types::QueryType = GraphQL::ObjectType.define do
     resolve ->(obj, args, ctx) { Chirp.all }
   end
 
+  field :allLikes, !types[Types::LikeType] do
+    resolve ->(obj, args, ctx) { Chirp.all }
+  end
+
   # TODO: remove me
   field :testField, types.String do
     description "An example field added by the generator"
