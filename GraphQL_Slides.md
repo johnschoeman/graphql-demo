@@ -202,7 +202,7 @@ Allowing us to recieve more complicated collections of data.
 
 - GraphQL is an API technology, not a database technology.
 
-- GraphQL is a specification, not a specific language or framework.
+- GraphQL is a specification, not a specific language, library, or framework.
 
 ---
 

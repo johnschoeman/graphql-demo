@@ -39,7 +39,9 @@ end
 
 This type currently only has a name defined.  We need to add some fields to this type object inorder to allow our server to fetch data for our queries.
 
-Each field needs a corresponding resolver function. The server will call the resolver functions which are dictated by a request query.  The return values of these resolves will be return as response data.
+Each field needs a corresponding resolver function. The server will call any resolver functions which are dictated by a request query.  The return values of these resolves will be returned as the request response data. 
+
+We need to declare beforehand the data type that the resolver will return.  Here we are returning a string, but but we can also return custom types that themselves have fields and resolvers.
 
 ```ruby
 # hello_graphql.rb
@@ -50,6 +52,15 @@ QueryType = GraphQL::ObjectType.define do
     resolve -> (obj, args, ctx) { 'Hello World!' }
   end
 ```
+
+Whatever is returned from the resolver after invocation will be returned in the reponse under the key of the field's name.
+
+all resovlers must take three arguements: ```obj```, ```args```, ```ctx```.
+
+- obj: The object itself, here the query itself.
+- args: Any arguments that are being passed in with the query.
+- ctx: The context of the query, similar to rails session hash.
+
 
 ### Step 3:
 
@@ -62,6 +73,8 @@ HelloSchema = GraphQL::Schema.define do
   query QueryType
 end
 ```
+
+The schema is the root of all possible queries that we may request of our graphql server.
 
 ### Step 4:
 

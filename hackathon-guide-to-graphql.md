@@ -18,7 +18,8 @@ http://graphql.org/learn
 
 ## Stack Specific Tutorials
 
-MERN Stack with GQL
+MERN Stack with GQL:
+note that this is using Apollo Client 1.0, not the most recent version of 2.0
 https://github.com/EQuimper/twitter-clone-with-graphql-reactnative
 
 Node PostGreSQL and GQL

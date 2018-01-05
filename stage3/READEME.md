@@ -4,7 +4,9 @@ In this stage will will continue with bluebird and connect our frontend to our n
 
 ### Step 1: 
 
+```bash
 npm install graphql-request
+```
 
 ### Step 2:
 
