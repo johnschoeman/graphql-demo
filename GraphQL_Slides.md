@@ -1,3 +1,4 @@
+<!-- https://s-pangburn.github.io/slides/ -->
 # Graph QL
 
 ---
@@ -183,7 +184,7 @@ Allowing us to recieve more complicated collections of data.
 
 - Allows for parallelization of workflow.  (FE vs BE)
 
-- Can integrate legacy systems, micro services, external apis, etc, and hide that complexity from the client
+- Can integrate legacy systems, micro services, external apis, etc, and hide that complexity from the client.
 
 - Removes time consuming coordination and defining the api/routes, we can focus on the data.
 
@@ -204,13 +205,15 @@ Allowing us to recieve more complicated collections of data.
 
 - GraphQL is a specification, not a specific language, library, or framework.
 
+- GraphQL is a server-side technology and is frontend framework agnositic.
+
 ---
 
 ## How Does GraphQL Work?
 
 ---
 
-GraphQL provides a complete description of the data in your API by defining a strongly typed schema which dictactes an abstracted graph of the application data.
+GraphQL provides a complete description of the data in your API by defining a strongly typed ***schema*** which dictactes an abstracted graph of the application data.
 
 ---
 
