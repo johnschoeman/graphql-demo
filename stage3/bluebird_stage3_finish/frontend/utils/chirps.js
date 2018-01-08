@@ -7,8 +7,13 @@ const getChirpsQuery = `{
     id
     body
     author_id
-    likes
+    like_count
     liked_by_current_user
+    likes {
+      id
+      chirp_id
+      user_id
+    }
   }
 }`;
 

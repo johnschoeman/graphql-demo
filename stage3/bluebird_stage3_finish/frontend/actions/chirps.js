@@ -15,7 +15,8 @@ const receiveSingleChirp = chirp => ({
 
 export const fetchChirps = () => dispatch => {
   return getChirps()
-    .then(chirps => dispatch(receiveChirps(chirps.allChirps)));
+    .then(chirps => dispatch(receiveChirps(chirps.allChirps)))
+    .catch(error => console.log(error));
 }
 
 export const likeChirp = id => dispatch => {
