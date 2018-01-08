@@ -8,6 +8,8 @@ In this stage will will continue with bluebird and connect our frontend to our n
 npm install graphql-request
 ```
 
+
+
 ### Step 2:
 
 add the following code to the frontend utils file:

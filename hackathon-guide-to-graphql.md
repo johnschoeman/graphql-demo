@@ -14,7 +14,7 @@ https://dev-blog.apollodata.com/graphql-explained-5844742f195e
 more indepth walkthrough of graphql concepts and terminology:
 http://graphql.org/learn
 
-[GraphQL Radio](https://graphqlradio.com/)
+[GraphQL Radio](https://graphqlradio.com/) : An awesome podcast covering GraphQL.
 
 ## Stack Specific Tutorials
 
