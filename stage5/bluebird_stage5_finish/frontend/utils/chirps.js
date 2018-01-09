@@ -16,24 +16,32 @@ const getChirpsQuery = `{
     }
     like_count
     liked_by_current_user
-    likes {
-      id
-      chirp_id
-      user_id
-    }
   }
 }`;
+
+const createChirpMutation = `
+  mutation createChirp($body: String!, $author_id: Int!) {
+    createChirp(body: $body, author_id: $author_id) {
+      id
+      body
+      author_id
+      author {
+        username
+      }
+      like_count
+      liked_by_current_user
+    }
+  }
+`
 
 export const getChirps = () => {
   return client.request(getChirpsQuery);
 }
 
 export const postChirp = (chirp) => {
-  return $.ajax({
-    url: '/api/chirps',
-    method: 'POST',
-    data: { chirp }
-  })
+  console.log('creating chirp...');
+  console.log('chirp: ', chirp);
+  return client.request(createChirpMutation, chirp)
 }
 
 export const postLikeToChirp = id => {

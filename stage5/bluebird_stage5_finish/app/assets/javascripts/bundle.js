@@ -11663,8 +11663,8 @@ var receiveSingleChirp = function receiveSingleChirp(chirp) {
 
 var fetchChirps = exports.fetchChirps = function fetchChirps() {
   return function (dispatch) {
-    return (0, _chirps.getChirps)().then(function (chirps) {
-      return dispatch(receiveChirps(chirps.allChirps));
+    return (0, _chirps.getChirps)().then(function (data) {
+      return dispatch(receiveChirps(data.allChirps));
     }).catch(function (error) {
       return console.log(error);
     });
@@ -11673,8 +11673,8 @@ var fetchChirps = exports.fetchChirps = function fetchChirps() {
 
 var createChirp = exports.createChirp = function createChirp(chirp) {
   return function (dispatch) {
-    return (0, _chirps.postChirp)(chirp).then(function (chirp) {
-      return dispatch(receiveSingleChirp(chirp));
+    return (0, _chirps.postChirp)(chirp).then(function (data) {
+      return dispatch(receiveSingleChirp(data.createChirp));
     });
   };
 };
@@ -25529,18 +25529,18 @@ var client = new _graphqlRequest.GraphQLClient(URL, {
   mode: 'cors'
 });
 
-var getChirpsQuery = '{\n  allChirps {\n    id\n    body\n    author_id\n    author {\n      username\n    }\n    like_count\n    liked_by_current_user\n    likes {\n      id\n      chirp_id\n      user_id\n    }\n  }\n}';
+var getChirpsQuery = '{\n  allChirps {\n    id\n    body\n    author_id\n    author {\n      username\n    }\n    like_count\n    liked_by_current_user\n  }\n}';
+
+var createChirpMutation = '\n  mutation createChirp($body: String!, $author_id: Int!) {\n    createChirp(body: $body, author_id: $author_id) {\n      id\n      body\n      author_id\n      author {\n        username\n      }\n      like_count\n      liked_by_current_user\n    }\n  }\n';
 
 var getChirps = exports.getChirps = function getChirps() {
   return client.request(getChirpsQuery);
 };
 
 var postChirp = exports.postChirp = function postChirp(chirp) {
-  return $.ajax({
-    url: '/api/chirps',
-    method: 'POST',
-    data: { chirp: chirp }
-  });
+  console.log('creating chirp...');
+  console.log('chirp: ', chirp);
+  return client.request(createChirpMutation, chirp);
 };
 
 var postLikeToChirp = exports.postLikeToChirp = function postLikeToChirp(id) {
