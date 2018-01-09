@@ -1,7 +1,7 @@
 {
   "name": "BlueBird",
   "private": true,
-  "script": {
+  "scripts": {
     "webpack": "webpack --watch"
   },
   "dependencies": {

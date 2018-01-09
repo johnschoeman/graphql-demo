@@ -1,9 +1,9 @@
-import { GraphQLClient } from 'graphql-request'
-const URL = "http://localhost:3000/graphql"
+import { GraphQLClient } from 'graphql-request';
+const URL = "http://localhost:3000/graphql";
 
 const client = new GraphQLClient(URL, {
   credentials: 'include'
-})
+});
 
 const getChirpsQuery = `{
   allChirps {
