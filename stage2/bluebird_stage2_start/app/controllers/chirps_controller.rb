@@ -25,11 +25,7 @@ class ChirpsController < ApplicationController
   end
 
   def index
-    @chirps = if params[:user_id]
-                Chirp.where(author_id: params[:user_id])
-              else
-                Chirp.all
-              end
+    @chirps = params[:user_id] ? Chirp.where(author_id: params[:user_id]) : Chirp.all
     render :index
   end
 
