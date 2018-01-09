@@ -25485,10 +25485,14 @@ var _graphqlRequest = __webpack_require__(243);
 
 var URL = "http://localhost:3000/graphql";
 
+var client = new _graphqlRequest.GraphQLClient(URL, {
+  credentials: 'include'
+});
+
 var getChirpsQuery = '{\n  allChirps {\n    id\n    body\n    author_id\n    like_count\n    liked_by_current_user\n    likes {\n      id\n      chirp_id\n      user_id\n    }\n  }\n}';
 
 var getChirps = exports.getChirps = function getChirps() {
-  return (0, _graphqlRequest.request)(URL, getChirpsQuery);
+  return client.request(getChirpsQuery);
 };
 
 var postLikeToChirp = exports.postLikeToChirp = function postLikeToChirp(id) {
