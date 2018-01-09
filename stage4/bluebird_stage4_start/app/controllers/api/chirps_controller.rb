@@ -24,7 +24,7 @@ class Api::ChirpsController < ApplicationController
   end
   
   def index
-    @chirps = Chirp.all
+    @chirps = Chirp.all.order(:created_at)
   end
   
   def destroy

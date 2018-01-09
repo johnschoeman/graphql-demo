@@ -1,6 +1,6 @@
 export const RECEIVE_CHIRPS = 'RECEIVE_CHIRPS';
 export const RECEIVE_SINGLE_CHIRP = 'RECEIVE_SINGLE_CHIRP';
-import { getChirps, postLikeToChirp, deleteLikeFromChirp } from '../utils/chirps';
+import { getChirps, postLikeToChirp, deleteLikeFromChirp, postChirp } from '../utils/chirps';
 
 
 const receiveChirps = chirps => ({
@@ -17,6 +17,11 @@ export const fetchChirps = () => dispatch => {
   return getChirps()
     .then(chirps => dispatch(receiveChirps(chirps.allChirps)))
     .catch(error => console.log(error));
+}
+
+export const createChirp = (chirp) => dispatch => {
+  return postChirp(chirp)
+    .then(chirp => dispatch(receiveSingleChirp(chirp)))
 }
 
 export const likeChirp = id => dispatch => {

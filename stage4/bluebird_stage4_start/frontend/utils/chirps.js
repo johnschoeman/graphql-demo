@@ -7,6 +7,10 @@ const getChirpsQuery = `{
     id
     body
     author_id
+    author {
+      id
+      username
+    }
     like_count
     liked_by_current_user
     likes {
@@ -19,6 +23,14 @@ const getChirpsQuery = `{
 
 export const getChirps = () => {
   return request(URL, getChirpsQuery);
+}
+
+export const postChirp = (chirp) => {
+  return $.ajax({
+    url: '/api/chirps',
+    method: 'POST',
+    data: { chirp }
+  })
 }
 
 export const postLikeToChirp = id => {

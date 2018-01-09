@@ -28,6 +28,10 @@ class Chirp < ApplicationRecord
     foreign_key: :author_id,
     class_name: :User
 
+  def username
+    author.username
+  end
+
   def count_of_likes
     likes.count
   end

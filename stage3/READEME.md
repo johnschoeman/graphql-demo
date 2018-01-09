@@ -50,3 +50,10 @@ export const fetchChirps = () => dispatch => {
 ```
 
 Verify that the frontend is correctly recieving the data.
+
+
+## Exercises
+
+Create a UserType for the graphQL schema and make a relation on the ChirpType that returns the chirps author.  Once your GQL server can handle requests that ask for the chirps author, adjust your gql-request from the react frontend to ask for that data and display it next to the chirp.
+
+See stage4 start for solutions
