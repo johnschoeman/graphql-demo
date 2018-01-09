@@ -32,10 +32,6 @@ class Chirp < ApplicationRecord
     author.username
   end
 
-  def count_of_likes
-    likes.count
-  end
-
   def chirp_too_long
     if body.length > 140
       errors[:body] << "too long"

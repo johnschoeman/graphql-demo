@@ -30,8 +30,10 @@ class ChirpForm extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
+      <div className="chirp-form-container">
+        <form 
+          className="chirp-form"
+          onSubmit={this.handleSubmit}>
           <textarea
            type="text" 
            placeholder="Write a chrip..." 

@@ -3,10 +3,13 @@ import ChirpIndex from './chirp_index';
 import { fetchChirps, likeChirp, unLikeChirp, createChirp } from '../../actions/chirps';
 import { connect } from 'react-redux';
 
-const mapStateToProps = (state) => ({
-  chirps: Object.keys(state.entities.chirps).map(key => state.entities.chirps[key]),
-  currentUser: state.session.currentUser
-});
+const mapStateToProps = (state) => {
+  return {
+    chirps: state.entities.chirps.byId,
+    chirpIds: state.entities.chirps.allIds,
+    currentUser: state.session.currentUser
+  }
+};
 
 const mapDispatchToProps = (dispatch) => ({
   fetchChirps: () => dispatch(fetchChirps()),

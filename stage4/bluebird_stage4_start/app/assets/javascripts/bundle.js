@@ -11682,7 +11682,7 @@ var createChirp = exports.createChirp = function createChirp(chirp) {
 var likeChirp = exports.likeChirp = function likeChirp(id) {
   return function (dispatch) {
     return (0, _chirps.postLikeToChirp)(id).then(function (chirp) {
-      return dispatch(receiveSingleChirp(chirp));
+      dispatch(receiveSingleChirp(chirp));
     });
   };
 };
@@ -25454,24 +25454,55 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _chirps = __webpack_require__(106);
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function deepFreeze(obj) {
+
+  // Retrieve the property names defined on obj
+  var propNames = Object.getOwnPropertyNames(obj);
+
+  // Freeze properties before freezing self
+  propNames.forEach(function (name) {
+    var prop = obj[name];
+
+    // Freeze prop if it is an object
+    if ((typeof prop === 'undefined' ? 'undefined' : _typeof(prop)) == 'object' && prop !== null) deepFreeze(prop);
+  });
+
+  // Freeze self (no-op if already frozen)
+  return Object.freeze(obj);
+}
+
+var initialState = {
+  byId: {},
+  allIds: []
+};
 
 exports.default = function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments[1];
 
-  Object.freeze(state);
+  deepFreeze(state);
   switch (action.type) {
     case _chirps.RECEIVE_CHIRPS:
-      var chirps = {};
+      var chirps = {
+        byId: {},
+        allIds: []
+      };
       action.chirps.forEach(function (chirp) {
-        chirps[chirp.id] = chirp;
+        chirps.byId[chirp.id] = chirp;
+        chirps.allIds.push(chirp.id);
       });
       return chirps;
     case _chirps.RECEIVE_SINGLE_CHIRP:
-      return Object.assign({}, state, _defineProperty({}, action.chirp.id, action.chirp));
+      var newState = JSON.parse(JSON.stringify(state));
+      if (!newState.byId[action.chirp.id]) {
+        newState.allIds.unshift(action.chirp.id);
+      }
+      newState.byId[action.chirp.id] = action.chirp;
+      return newState;
     default:
       return state;
   }
@@ -25493,10 +25524,15 @@ var _graphqlRequest = __webpack_require__(243);
 
 var URL = "http://localhost:3000/graphql";
 
-var getChirpsQuery = '{\n  allChirps {\n    id\n    body\n    author_id\n    author {\n      id\n      username\n    }\n    like_count\n    liked_by_current_user\n    likes {\n      id\n      chirp_id\n      user_id\n    }\n  }\n}';
+var client = new _graphqlRequest.GraphQLClient(URL, {
+  credentials: 'include',
+  mode: 'cors'
+});
+
+var getChirpsQuery = '{\n  allChirps {\n    id\n    body\n    author_id\n    author {\n      username\n    }\n    like_count\n    liked_by_current_user\n    likes {\n      id\n      chirp_id\n      user_id\n    }\n  }\n}';
 
 var getChirps = exports.getChirps = function getChirps() {
-  return (0, _graphqlRequest.request)(URL, getChirpsQuery);
+  return client.request(getChirpsQuery);
 };
 
 var postChirp = exports.postChirp = function postChirp(chirp) {
@@ -29847,13 +29883,13 @@ var _chirp_index_container = __webpack_require__(291);
 
 var _chirp_index_container2 = _interopRequireDefault(_chirp_index_container);
 
-var _home = __webpack_require__(294);
+var _home = __webpack_require__(295);
 
 var _home2 = _interopRequireDefault(_home);
 
 var _reactRouterDom = __webpack_require__(29);
 
-var _route_util = __webpack_require__(295);
+var _route_util = __webpack_require__(296);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30375,9 +30411,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    chirps: Object.keys(state.entities.chirps).map(function (key) {
-      return state.entities.chirps[key];
-    }),
+    chirps: state.entities.chirps.byId,
+    chirpIds: state.entities.chirps.allIds,
     currentUser: state.session.currentUser
   };
 };
@@ -30422,7 +30457,7 @@ var _chirp_item = __webpack_require__(293);
 
 var _chirp_item2 = _interopRequireDefault(_chirp_item);
 
-var _chirp_form = __webpack_require__(296);
+var _chirp_form = __webpack_require__(294);
 
 var _chirp_form2 = _interopRequireDefault(_chirp_form);
 
@@ -30453,7 +30488,9 @@ var ChirpIndex = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      var chirps = this.props.chirps;
+      var _props = this.props,
+          chirps = _props.chirps,
+          chirpIds = _props.chirpIds;
 
       return _react2.default.createElement(
         'div',
@@ -30465,10 +30502,10 @@ var ChirpIndex = function (_React$Component) {
         _react2.default.createElement(
           'ul',
           null,
-          chirps.map(function (chirp) {
+          chirpIds.map(function (chirpId) {
             return _react2.default.createElement(_chirp_item2.default, {
-              key: 'chirp' + chirp.id,
-              chirp: chirp,
+              key: 'chirp' + chirpId,
+              chirp: chirps[chirpId],
               likeChirp: _this2.props.likeChirp,
               unLikeChirp: _this2.props.unLikeChirp });
           })
@@ -30493,144 +30530,117 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (_ref) {
-  var chirp = _ref.chirp,
-      likeChirp = _ref.likeChirp,
-      unLikeChirp = _ref.unLikeChirp;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  var likeButtonText = "You don't like this.";
-  var likeButtonAction = function likeButtonAction() {
-    return likeChirp(chirp.id);
-  };
-  if (chirp.liked_by_current_user) {
-    likeButtonText = "You like this";
-    likeButtonAction = function likeButtonAction() {
-      return unLikeChirp(chirp.id);
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ChirpItem = function (_Component) {
+  _inherits(ChirpItem, _Component);
+
+  function ChirpItem(props) {
+    _classCallCheck(this, ChirpItem);
+
+    var _this = _possibleConstructorReturn(this, (ChirpItem.__proto__ || Object.getPrototypeOf(ChirpItem)).call(this, props));
+
+    _this.state = {
+      chirp: {},
+      likeChirp: {},
+      unLikeChirp: {}
     };
+    return _this;
   }
-  return _react2.default.createElement(
-    "li",
-    null,
-    _react2.default.createElement(
-      "p",
-      null,
-      chirp.author.username,
-      " chrips:"
-    ),
-    _react2.default.createElement(
-      "h3",
-      null,
-      chirp.body
-    ),
-    _react2.default.createElement(
-      "p",
-      null,
-      _react2.default.createElement(
-        "strong",
+
+  _createClass(ChirpItem, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.setState({
+        chirp: this.props.chirp,
+        likeChirp: this.props.likeChirp,
+        unLikeChirp: this.props.unLikeChirp
+      });
+    }
+  }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {
+      this.setState({
+        chirp: nextProps.chirp,
+        likeChirp: nextProps.likeChirp,
+        unLikeChirp: nextProps.unLikeChirp
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _state = this.state,
+          chirp = _state.chirp,
+          likeChirp = _state.likeChirp,
+          unLikeChirp = _state.unLikeChirp;
+      ;
+      var usernameText = "";
+      if (chirp.author && chirp.author.username) {
+        var username = chirp.author.username;
+        usernameText = username + " chrips:";
+      }
+
+      var likeButtonText = "You don't like this.";
+      var likeButtonAction = function likeButtonAction() {
+        return likeChirp(chirp.id);
+      };
+      if (chirp.liked_by_current_user) {
+        likeButtonText = "You like this";
+        likeButtonAction = function likeButtonAction() {
+          return unLikeChirp(chirp.id);
+        };
+      }
+      return _react2.default.createElement(
+        "li",
         null,
-        "Likes: ",
-        chirp.like_count
-      )
-    ),
-    _react2.default.createElement(
-      "button",
-      { onClick: likeButtonAction },
-      likeButtonText
-    )
-  );
-};
+        _react2.default.createElement(
+          "p",
+          null,
+          usernameText
+        ),
+        _react2.default.createElement(
+          "h3",
+          null,
+          chirp.body
+        ),
+        _react2.default.createElement(
+          "p",
+          null,
+          _react2.default.createElement(
+            "strong",
+            null,
+            "Likes: ",
+            chirp.like_count
+          )
+        ),
+        _react2.default.createElement(
+          "button",
+          { onClick: likeButtonAction },
+          likeButtonText
+        )
+      );
+    }
+  }]);
+
+  return ChirpItem;
+}(_react.Component);
+
+exports.default = ChirpItem;
 
 /***/ }),
 /* 294 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function () {
-  return _react2.default.createElement(
-    "div",
-    { className: "home" },
-    _react2.default.createElement(
-      "div",
-      { className: "hero-img-frame" },
-      _react2.default.createElement("img", { className: "hero-img", src: "https://pmcvariety.files.wordpress.com/2017/02/angry-birds-blues-rovio.jpg?w=1000&h=750&crop=1" })
-    ),
-    _react2.default.createElement(
-      "h1",
-      null,
-      "Where birds can chirp."
-    )
-  );
-};
-
-/***/ }),
-/* 295 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ProtectedRoute = exports.AuthRoute = undefined;
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(20);
-
-var _reactRouterDom = __webpack_require__(29);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    loggedIn: Boolean(state.session.currentUser)
-  };
-};
-
-var Auth = function Auth(_ref) {
-  var Component = _ref.component,
-      path = _ref.path,
-      loggedIn = _ref.loggedIn;
-  return _react2.default.createElement(_reactRouterDom.Route, { path: path, render: function render(props) {
-      return loggedIn ? _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' }) : _react2.default.createElement(Component, props);
-    } });
-};
-
-var Protected = function Protected(_ref2) {
-  var Component = _ref2.component,
-      path = _ref2.path,
-      loggedIn = _ref2.loggedIn;
-  return _react2.default.createElement(_reactRouterDom.Route, { path: path, render: function render(props) {
-      return loggedIn ? _react2.default.createElement(Component, props) : _react2.default.createElement(_reactRouterDom.Redirect, { to: '/signup' });
-    } });
-};
-
-var AuthRoute = exports.AuthRoute = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps)(Auth));
-var ProtectedRoute = exports.ProtectedRoute = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps, undefined)(Protected));
-
-/***/ }),
-/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30695,10 +30705,12 @@ var ChirpForm = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         "div",
-        null,
+        { className: "chirp-form-container" },
         _react2.default.createElement(
           "form",
-          { onSubmit: this.handleSubmit },
+          {
+            className: "chirp-form",
+            onSubmit: this.handleSubmit },
           _react2.default.createElement("textarea", {
             type: "text",
             placeholder: "Write a chrip...",
@@ -30714,6 +30726,89 @@ var ChirpForm = function (_Component) {
 }(_react.Component);
 
 exports.default = ChirpForm;
+
+/***/ }),
+/* 295 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function () {
+  return _react2.default.createElement(
+    "div",
+    { className: "home" },
+    _react2.default.createElement(
+      "div",
+      { className: "hero-img-frame" },
+      _react2.default.createElement("img", { className: "hero-img", src: "https://pmcvariety.files.wordpress.com/2017/02/angry-birds-blues-rovio.jpg?w=1000&h=750&crop=1" })
+    ),
+    _react2.default.createElement(
+      "h1",
+      null,
+      "Where birds can chirp."
+    )
+  );
+};
+
+/***/ }),
+/* 296 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ProtectedRoute = exports.AuthRoute = undefined;
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(20);
+
+var _reactRouterDom = __webpack_require__(29);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    loggedIn: Boolean(state.session.currentUser)
+  };
+};
+
+var Auth = function Auth(_ref) {
+  var Component = _ref.component,
+      path = _ref.path,
+      loggedIn = _ref.loggedIn;
+  return _react2.default.createElement(_reactRouterDom.Route, { path: path, render: function render(props) {
+      return loggedIn ? _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' }) : _react2.default.createElement(Component, props);
+    } });
+};
+
+var Protected = function Protected(_ref2) {
+  var Component = _ref2.component,
+      path = _ref2.path,
+      loggedIn = _ref2.loggedIn;
+  return _react2.default.createElement(_reactRouterDom.Route, { path: path, render: function render(props) {
+      return loggedIn ? _react2.default.createElement(Component, props) : _react2.default.createElement(_reactRouterDom.Redirect, { to: '/signup' });
+    } });
+};
+
+var AuthRoute = exports.AuthRoute = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps)(Auth));
+var ProtectedRoute = exports.ProtectedRoute = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps, undefined)(Protected));
 
 /***/ })
 /******/ ]);

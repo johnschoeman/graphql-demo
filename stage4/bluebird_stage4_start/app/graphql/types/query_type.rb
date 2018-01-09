@@ -4,7 +4,9 @@ Types::QueryType = GraphQL::ObjectType.define do
   # They will be entry points for queries on your schema.
 
   field :allChirps, !types[Types::ChirpType] do
-    resolve ->(obj, args, ctx) { Chirp.all.order(created_at: :desc) }
+    resolve ->(obj, args, ctx) { 
+      Chirp.order(created_at: :desc) 
+    }
   end
 
   field :allLikes, !types[Types::LikeType] do

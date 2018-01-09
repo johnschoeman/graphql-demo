@@ -10,26 +10,19 @@ User.destroy_all
 Chirp.destroy_all
 Like.destroy_all
 
-user1 = User.create(username: Faker::Name.name, email: Faker::Internet.email, password: "password")
-user2 = User.create(username: Faker::Name.name, email: Faker::Internet.email, password: "password")
-user3 = User.create(username: Faker::Name.name, email: Faker::Internet.email, password: "password")
-user4 = User.create(username: Faker::Name.name, email: Faker::Internet.email, password: "password")
-user5 = User.create(username: Faker::Name.name, email: Faker::Internet.email, password: "password")
-user6 = User.create(username: Faker::Name.name, email: Faker::Internet.email, password: "password")
-user7 = User.create(username: Faker::Name.name, email: Faker::Internet.email, password: "password")
-user8 = User.create(username: Faker::Name.name, email: Faker::Internet.email, password: "password")
-user9 = User.create(username: Faker::Name.name, email: Faker::Internet.email, password: "password")
+User.create(username: 'alice', email: 'alice', password: 'password')
+User.create(username: 'bob', email: 'bob', password: 'password')
 
-chirp1 = Chirp.create(body: Faker::Twitter.status[:text], author_id: user1.id)
-chirp2 = Chirp.create(body: Faker::Twitter.status[:text], author_id: user1.id)
-chirp3 = Chirp.create(body: Faker::Twitter.status[:text], author_id: user1.id)
-chirp4 = Chirp.create(body: Faker::Twitter.status[:text], author_id: user2.id)
-chirp5 = Chirp.create(body: Faker::Twitter.status[:text], author_id: user2.id)
-chirp6 = Chirp.create(body: Faker::Twitter.status[:text], author_id: user2.id)
+users = []
+5.times do
+  users << User.create(username: Faker::Name.name, email: Faker::Internet.email, password: "password")
+end
 
-Like.create(user_id: user3.id, chirp_id: chirp1.id)
-Like.create(user_id: user4.id, chirp_id: chirp2.id)
-Like.create(user_id: user5.id, chirp_id: chirp3.id)
-Like.create(user_id: user3.id, chirp_id: chirp3.id)
-Like.create(user_id: user4.id, chirp_id: chirp1.id)
-Like.create(user_id: user5.id, chirp_id: chirp2.id)
+chirps = []
+10.times do
+  chirps << Chirp.create(body: Faker::Twitter.status[:text], author_id: users.sample.id)
+end
+
+20.times do
+  Like.create(user_id: users.sample.id, chirp_id: chirps.sample.id)
+end

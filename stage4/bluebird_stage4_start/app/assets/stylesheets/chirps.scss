@@ -1,3 +1,33 @@
 // Place all the styles related to the chirps controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.chirp-form-container {
+  margin: 20px;
+  padding: 5px;
+  border-radius: 3px;
+  background-color: lightblue;
+}
+
+.chirp-form {
+  display: flex;
+  flex-direction: column;
+
+  textarea {
+    height: 50px;
+    width: 95%;
+    margin: 8px auto;
+    border: none;
+    border-radius: 3px;
+  }
+
+  input {
+    margin: 8px 0 4px 12px;
+    height: 10px;
+    width: 60px;
+  }
+
+  input:hover {
+    cursor: pointer;
+  }
+}

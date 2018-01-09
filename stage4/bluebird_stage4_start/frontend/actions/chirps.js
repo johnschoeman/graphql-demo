@@ -26,7 +26,7 @@ export const createChirp = (chirp) => dispatch => {
 
 export const likeChirp = id => dispatch => {
   return postLikeToChirp(id)
-    .then(chirp => dispatch(receiveSingleChirp(chirp)));
+    .then(chirp => { dispatch(receiveSingleChirp(chirp)) });
 }
 
 export const unLikeChirp = id => dispatch => {

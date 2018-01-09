@@ -12,7 +12,7 @@ class ChirpIndex extends React.Component {
   }
 
   render() {
-    const { chirps } = this.props;
+    const { chirps, chirpIds } = this.props;
     return (
       <div>
         <ChirpForm
@@ -21,10 +21,10 @@ class ChirpIndex extends React.Component {
         />
         <ul>
           {
-            chirps.map(chirp => (
+            chirpIds.map(chirpId => (
               <ChirpItem
-                key={`chirp${chirp.id}`}
-                chirp={chirp}
+                key={`chirp${chirpId}`}
+                chirp={chirps[chirpId]}
                 likeChirp={this.props.likeChirp}
                 unLikeChirp={this.props.unLikeChirp}/>
               )
