@@ -1,5 +1,7 @@
 Types::MutationType = GraphQL::ObjectType.define do
   name "Mutation"
+  
+  field :createChirp, function: Resolvers::CreateChirp.new
 
   # TODO: Remove me
   field :testField, types.String do
