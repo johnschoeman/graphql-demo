@@ -1,6 +1,9 @@
-import { request } from 'graphql-request';
-
+import { GraphQLClient } from 'graphql-request'
 const URL = "http://localhost:3000/graphql"
+
+const client = new GraphQLClient(URL, {
+  credentials: 'include'
+})
 
 const getChirpsQuery = `{
   allChirps {
@@ -18,7 +21,7 @@ const getChirpsQuery = `{
 }`;
 
 export const getChirps = () => {
-  return request(URL, getChirpsQuery);
+  return client.request(getChirpsQuery);
 }
 
 export const postLikeToChirp = id => {

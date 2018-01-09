@@ -9,7 +9,6 @@ npm install graphql-request
 ```
 
 
-
 ### Step 2:
 
 add the following code to the frontend utils file:
@@ -17,23 +16,34 @@ add the following code to the frontend utils file:
 ```javascript
 // /frontend/utils/chirps.js
 
-import { request } from 'graphql-request';
+import { GraphQLClient } from 'graphql-request' // 1.)
+const URL = "http://localhost:3000/graphql"  // 2.)
 
-const URL = "http://localhost:3000/graphql"
+const client = new GraphQLClient(URL, {
+  credentials: 'include',
+  mode: 'cors'
+})  // 3.)
 
 const getChirpsQuery = `{
   allChirps {
     id
     body
     author_id
-    likes
+    like_count
     liked_by_current_user
+    likes {
+      id
+      chirp_id
+      user_id
+    }
   }
-}`;
+}`;  // 4.)
 
 export const getChirps = () => {
-  return request(URL, getChirpsQuery);
-}
+  return client.request(getChirpsQuery);
+}  // 5.)
+
+...
 
 ```
 
