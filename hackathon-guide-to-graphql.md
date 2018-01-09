@@ -16,6 +16,8 @@ http://graphql.org/learn
 
 [GraphQL Radio](https://graphqlradio.com/) : An awesome podcast covering GraphQL.
 
+https://github.com/chentsulin/awesome-graphql
+
 ## Stack Specific Tutorials
 
 MERN Stack with GQL:
