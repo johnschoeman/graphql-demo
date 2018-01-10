@@ -158,7 +158,7 @@ Types::QueryType = GraphQL::ObjectType.define do
 end
 ```
 
-1) We would like our server to return an array of chirps arrays and since all resolver return values must be delcared, we must tell the graphql server that we want the ```allChirps``` field to return an array and that array's items will be of the ```ChirpType``` type. With the graphql ruby gem this is done with the ```types[ItemType]```.
+1) We would like our server to return an array of chirps arrays and since all resolver return values must be delcared, we must tell the graphql server that we want the ```allChirps``` field to return an array and that array's items will be of the ```ChirpType``` type. With the graphql ruby gem this is done with the ```types[ItemType]``` syntax.
 
 Test that you make a query to your application with graphiql and recieve an array of all the chirps back:
 
@@ -244,8 +244,42 @@ We need to make the current user available to the context object being passed to
   end
 ```
 
-Test that this information is being returned by the server correctly using graphiql.
+Test that this information is being returned by the server correctly using graphiql before proceeding.
+
+### Step 7: Create a LikeType
+
+(todo)
+
+### Step 8: Create a GraphQL relation between chirps and likes
+
+(todo)
+
+Test that this information is being returned by the server correctly using graphiql before proceeding.
 
 That's it!  Our backend now has a graphql complient api which can return all the data we need to populate our chirps index view.
 
 In the next stage we will implement queries on the frontend to take advantage of our new dynamic api.
+
+### Exercises
+
+1. Create a UserType with the relavent fields so that our GraphQL endpoint can return user data from our User model.  Make a entry point to our schema that will return all of the users.
+2. Create a relation on the UserType that will return all the chirps of a given user.  Verify that you can make the following query in graphiql:
+
+```javascript
+query {
+  allUsers {
+    id
+    username
+    chirps {
+      id
+      body
+      likes {
+        id
+        user_id
+      }
+    }
+  }
+}
+```
+
+See stage 3 for solutions
