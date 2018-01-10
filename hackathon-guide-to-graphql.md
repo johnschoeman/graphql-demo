@@ -16,7 +16,7 @@ http://graphql.org/learn
 
 [GraphQL Radio](https://graphqlradio.com/) : An awesome podcast covering GraphQL.
 
-https://github.com/chentsulin/awesome-graphql
+[Awesome GraphQL](https://github.com/chentsulin/awesome-graphql) : An awesome list of everything in the GraphQL ecosystem.
 
 ## Stack Specific Tutorials
 
