@@ -141,7 +141,8 @@ Which Returns the Following JSON object
 
 ---
 
-How would we get the likes of the chirps of a user's followers? (Without breaking RESTful conventions)
+How would we get the likes of the chirps of a user's followers? 
+(Without breaking RESTful conventions)
 
 ```
 GET: '???'
@@ -176,17 +177,31 @@ Allowing us to recieve more complicated collections of data.
 
 ---
 
-### Bonuses For Using GraphQL
+### In Short
 
-- solves over/under fetching issues (N + 1)
+GraphQL allows a client to request exactly what data it needs.
 
-- allows for easy client side cacheing (Apollo Client/Relay)
+---
+
+### Technical Bonuses For Using GraphQL
+
+- Solves over/under fetching issues (N + 1)
+
+- Allows for easy client side cacheing (Apollo Client/Relay)
+
+- Can be used to greatly improve precieved load time on view layers.  
+
+---
+
+### Organizational Bonuses For Using GraphQL
 
 - Allows for parallelization of workflow.  (FE vs BE)
 
 - Can integrate legacy systems, micro services, external apis, etc, and hide that complexity from the client.
 
-- Removes time consuming coordination and defining the api/routes, we can focus on the data.
+- Removes time consuming coordination of the api/routes, we can focus on the data and not implementation details.
+
+- GraphQL requests are self-documenting.
 
 ---
 
@@ -195,6 +210,7 @@ Allowing us to recieve more complicated collections of data.
 - difficult to implement server side cacheing.
 - upfront costs of setting up gql server.
 - graphql is a thin data aplication layer, it does not solve all the problems.
+- additional security concerns.
 - lack of documenation and tooling, espcially for ruby.
 
 ---
@@ -217,10 +233,9 @@ GraphQL provides a complete description of the data in your API by defining a st
 
 ---
 
-GraphQL then provides entry points to this graph and traverses the graph to generate a data tree of requested data, which is returned to the client.
+GraphQL then provides entry points to this graph and traverses the graph using ***resolver*** functions to generate a data tree of the requested data, which is returned to the client.
 
 ---
-
 
 ## Questions?
 
