@@ -107,12 +107,14 @@ You should be able to visit ```localhost:3000/graphiql``` and make queries in th
 
 Create a new file called chirp_type.rb and define a new object type to be used in creating respones from our graphql server:
 
+(Note that the naming conventions must also be followed, similiar to other rails conventions.  If you where to call the file ```chirps_type.rb``` and the type ```Type::ChirpType``` this would cause an error during the execution of the query.)
+
 ```ruby
 #/app/graphql/types/chirp_type.rb
-Types::ChirpType = GraphQL::ObjectType.define do # )
+Types::ChirpType = GraphQL::ObjectType.define do # 1)
   name 'Chirp'
 
-  field :id, !types.ID  # 2)
+  field :id, !types.Int  # 2)
   field :body, !types.String
   field :author_id, !types.Int
 end
@@ -120,7 +122,9 @@ end
 
 1) Here we are createing a new type called ChirpType under the Types name space using the GraphQL::ObjectType.define method as we did in stage 1.
 
-2) Here we are using a rails-like convention implemented in the graphql gem to create our resolver functions for the fields of ChirpType.  Given records from our Active Record ORM have the method Chirp#body, we can write the resolver: 
+2) There's a lot going on in this line.  Let's take a moment to break it down. 
+
+Firstly, we are using a rails-like convention implemented in the graphql gem to create our resolver functions for the fields of ChirpType.  Given records from our Active Record ORM have the method Chirp#body, we can write the resolver: 
 
 ```ruby
   field :body, !types.String do
@@ -134,9 +138,7 @@ as:
   field :body, !types.String
 ```
 
-Note that the naming conventions must also be followed, similiar to other rails conventions.  If you where to call the file ```chirps_type.rb``` and the type ```Type::ChirpType``` this would cause an error during the execution of the query.
-
-(Todo: explain how graphql-ruby knows how to go to the chirp model)
+(todo: explain a bit of the meta programming with the field function, the bang operator and the types object here)
 
 Now we have a way of gathering chirps their data from our Chirp model.  Next we will use this type to make a field that will return chirps.
 
@@ -156,7 +158,7 @@ Types::QueryType = GraphQL::ObjectType.define do
 end
 ```
 
-1) We would like our server to return an array of chirps arrays and since all resolver return values must be delcared, we must tell the graphql server that we want the ```allChirps``` field to return an array and that array's items will be of the ```ChirpType``` type. With the graphql ruby gem this is done with the ```types[ItemType]``` syntax.
+1) We would like our server to return an array of chirps arrays and since all resolver return values must be delcared, we must tell the graphql server that we want the ```allChirps``` field to return an array and that array's items will be of the ```ChirpType``` type. With the graphql ruby gem this is done with the ```types[ItemType]```.
 
 Test that you make a query to your application with graphiql and recieve an array of all the chirps back:
 
@@ -175,12 +177,12 @@ This query should return a json object similar to:
   "data": {
     "allChirps": [
       {
-        "id": "4",
+        "id": 4,
         "body": "Maiores nihil quo autem numquam placeat aliquam reprehenderit et."
       },
       ...
       {
-        "id": "2",
+        "id": 2,
         "body": "Amet incidunt sit asperiores unde impedit."
       }
     ]
