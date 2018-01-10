@@ -2,6 +2,8 @@
 
 *Get started with GraphQL by converting a RESTful API in a ReactJS/Rails twitter clone into a GraphQL powered API.*
 
+***Note that this tutorial is currently under construction.  If you have any feed back or would like to contribute to it, please reach out I'd love to hear from you***
+
 GraphQL is a modern web API technology that is flexible, provides more efficient client-server communication and makes rapid feature development easier. It has been adopted by companies like GitHub, Pinterest, and Intuit.
 
 The goal of this tutorial is to teach you how to make a GraphQL complient server with Ruby on Rails.  It assumes that you know the most basic GraphQL concepts and terms, Ruby on Rails (including the MVC architecture in general), and enough about JavaScript to make network requests from a client.
