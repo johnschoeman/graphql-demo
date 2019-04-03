@@ -2,7 +2,7 @@
 
 *Get started with GraphQL by converting a RESTful API in a ReactJS/Rails twitter clone into a GraphQL powered API.*
 
-***Note that this tutorial is currently under construction.  If you have any feed back or would like to contribute to it, please reach out I'd love to hear from you***
+***Note that this tutorial is currently under construction.***
 
 GraphQL is a modern web API technology that is flexible, provides more efficient client-server communication and makes rapid feature development easier. It has been adopted by companies like GitHub, Pinterest, and Intuit.
 
